@@ -300,11 +300,11 @@ def valoriMaggiori():
 
 
 def countAnalisiIstologica():
-    analisiIstologiche = leggereValori(r"C:\Users\zuzup\Desktop\cartelle\code\anemia\.progettino_informatica\Include\data\Anemia.csv")[3]
+    analisiIstologiche: list[str] = leggereValori(r"C:\Users\zuzup\Desktop\cartelle\code\anemia\.progettino_informatica\Include\data\Anemia.csv")[3]
     counter: list[tuple(str, int)] = []
     for element in analisiIstologiche:
-        value = analisiIstologiche.count(element)
-        analisiIstologiche = [analisi for analisi in analisiIstologiche if analisi != element]
+        value: int = analisiIstologiche.count(element)
+        analisiIstologiche: list[str] = [analisi for analisi in analisiIstologiche if analisi != element]
         if value != 0: counter.append((element, value))
     return counter
 
