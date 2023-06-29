@@ -279,7 +279,11 @@ def leggereValori(inputFile: str) -> list[list[str, int]]:
         analisiMolecolari.append([row[2], row[3], row[4]]) 
         analisiIstologiche.append(row[5])
         genere.append(row[6])
-        intervallo.append([row[7], row[8], row[9], row[10]]) # Split the interval, divided all by an ";"
+        intervallo.append([(row[7].split('-')[0], row[7].split('-')[1]), # Hemoglobin
+                           (row[8].split('-')[0], row[8].split('-')[1]), # MCH
+                           (row[9].split('-')[0], row[9].split('-')[1]), # MCHC
+                           (row[10].split('-')[0], row[10].split('-')[1]) # MCV
+                           ]) # Split the interval
         ferritina.append(row[11])
     infile.close()
     return [nome, emoglobina, analisiMolecolari, analisiIstologiche, genere, intervallo, ferritina]
@@ -314,24 +318,16 @@ def valoriOltreReference():
     valueAnalisiMolecolari: list[list[float, float, float]] = values[2] 
     valueEmoglobina: list[float] = values[1]
     valueInterval: list[str] = values[5]
-    # Creating a tuple for the interval range 
-    interval: list[list[tuple[float, float]]] = []
-    for index, element in enumerate(valueInterval):
-        singleInterval: list[tuple[float, float]] = []
-        singleInterval.append((float(element[0].split('-')[0]), float(element[0].split('-')[1]))) # Hemoglobin interval
-        singleInterval.append((float(element[1].split('-')[0]), float(element[1].split('-')[1]))) # MCH interval
-        singleInterval.append((float(element[2].split('-')[0]), float(element[2].split('-')[1]))) # MCHC interval
-        singleInterval.append((float(element[3].split('-')[0]), float(element[3].split('-')[1]))) # MCV interval
-        interval.append(singleInterval) # Take all in a single array
+    for index, element in enumerate(valueInterval): 
         valueAnalisiMolecolari[index].insert(0, valueEmoglobina[index]) # insert the emoglobina's value in the first index of array
 
     matrixValue: list[list[str]] = [] # Create the matrix that contains all values
     for i, elements in enumerate(valueAnalisiMolecolari):
-        singleValue: list[str] = [] 
+        singleValue: list[str] = [] # Temporary variable
         for j, element in enumerate(elements):
-            if float(element) < interval[i][j][0]:
+            if float(element) < float(valueInterval[i][j][0]):
                 singleValue.append(("Sotto intervallo", element))
-            elif float(element) > interval[i][j][1]:
+            elif float(element) > float(valueInterval[i][j][1]):
                 singleValue.append(("Sopra intervallo", element))
             else:
                 singleValue.append("Dentro intervallo")    
