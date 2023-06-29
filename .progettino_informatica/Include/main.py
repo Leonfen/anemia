@@ -266,27 +266,42 @@ def leggereValori(inputFile: str) -> list[list[str, int]]:
 
     # Declare all values
     emoglobina: list[float] = [] 
-    analisiMolecolari: list[list[float]] = []
+    analisiCorpuscolari: list[list[float]] = []
     analisiIstologiche: list[str] = []
     genere: list[str] = []
-    intervallo: list[str] = []
+    intervallo: list[tuple[str, str]] = []
     ferritina: list[float] = []
     nome: list[str] = []
 
     for row in csvReader:   
         nome.append(row[0]) # Take name
-        emoglobina.append(row[1]) # Take the 3 values after the name
-        analisiMolecolari.append([row[2], row[3], row[4]]) 
-        analisiIstologiche.append(row[5])
-        genere.append(row[6])
-        intervallo.append([(row[7].split('-')[0], row[7].split('-')[1]), # Hemoglobin
-                           (row[8].split('-')[0], row[8].split('-')[1]), # MCH
-                           (row[9].split('-')[0], row[9].split('-')[1]), # MCHC
-                           (row[10].split('-')[0], row[10].split('-')[1]) # MCV
+        genere.append(row[1]) # Take gender
+        analisiIstologiche.append(row[2]) # Take analisis as a single string
+        # Take the values splitted by a comma
+        MHC, MCHC, MCV = row[3], row[4], row[5]
+        analisiCorpuscolari.append([MHC.split('=')[1], 
+                                    MCHC.split('=')[1],
+                                    MCV.split('=')[1]
+                                    ]) #* Only take the value
+
+        # Take the intervals
+        intervalloCorpuscolato = row[6].split(';')
+        intervalloMolecolare = row[9].split(';')
+        intervallo.append([
+                           (intervalloMolecolare[0].split('-')[0], intervalloCorpuscolato[0].split('-')[1]), # Hemoglobin
+                           (intervalloCorpuscolato[0].split('-')[0], intervalloCorpuscolato[0].split('-')[1]), # MCH
+                           (intervalloCorpuscolato[1].split('-')[0], intervalloCorpuscolato[1].split('-')[1]), # MCHC
+                           (intervalloCorpuscolato[2].split('-')[0], intervalloCorpuscolato[2].split('-')[1]), # MCV
+                           (intervalloMolecolare[1].split('-')[0], intervalloMolecolare[1].split('-')[1]) # Ferritina
                            ]) # Split the interval
-        ferritina.append(row[11])
+                
+        # Analisi molecolari
+        ferritina.append(row[8].split('=')[1])
+        emoglobina.append(row[7].split('=')[1])
+        #* Only take the value
+
     infile.close()
-    return [nome, emoglobina, analisiMolecolari, analisiIstologiche, genere, intervallo, ferritina]
+    return [nome, emoglobina, analisiCorpuscolari, analisiIstologiche, genere, intervallo, ferritina]
     #* Returns with the same index all the values referring to the same person
 
 def mediaEmoglobina():
@@ -313,15 +328,17 @@ def countAnalisiIstologica():
     return counter
 
 def valoriOltreReference():
-    # Analisi Molecolari represents the value "MCH", "MCHC", "MCV" in this order
+    # Analisi Corpuscolate represents the value "MCH", "MCHC", "MCV" in this order
     values = leggereValori(r"C:\Users\zuzup\Desktop\cartelle\code\anemia\.progettino_informatica\Include\data\Anemia.csv")
-    valueAnalisiMolecolari: list[list[float, float, float]] = values[2] 
-    valueEmoglobina: list[float] = values[1]
-    valueInterval: list[str] = values[5]
+    valueAnalisiMolecolari: list[list[str]] = values[2] 
+    valueEmoglobina = values[1]
+    valueFerritina = values[6]
+    valueInterval: list[list[tuple[str, str]]] = values[5]
     for index, element in enumerate(valueInterval): 
         valueAnalisiMolecolari[index].insert(0, valueEmoglobina[index]) # insert the emoglobina's value in the first index of array
+        valueAnalisiMolecolari[index].append(valueFerritina[index]) # insert the ferritina's value in the last index of array
 
-    matrixValue: list[list[str]] = [] # Create the matrix that contains all values
+    matrixValue: list[list[str]] | list[list[tuple[str, float]]] | list[list[tuple[str, float], str]] = [] # Create the matrix that contains all values
     for i, elements in enumerate(valueAnalisiMolecolari):
         singleValue: list[str] = [] # Temporary variable
         for j, element in enumerate(elements):
@@ -332,11 +349,52 @@ def valoriOltreReference():
             else:
                 singleValue.append("Dentro intervallo")    
         matrixValue.append(singleValue) # Create the full list, contain the single value of the interval 
+    # * The matrix value confronts the values for the interval in this order:
+    '''
+        - Hemoglobin
+        - MCH
+        - MCHC
+        - MCV
+        - Ferritina
+    '''
     return matrixValue
 
 def tiziMalatiAnemiaConMalattia():
     "Restituisce le persone malate di anemia con il loro tipo di anemia"
-    pass
+    valoriOltreIntervallo = valoriOltreReference()
+    sicknessValue: list = []
+    for elements in valoriOltreIntervallo:
+        temporaryValue: list = []
+        for index, element in enumerate(elements):
+            if type(element) == tuple:
+                match index:
+                    case 0:
+                        # Emoglobina
+                        if "Sotto" in element[0]:
+                            print("Il paziente soffre di anemia")
+                        else:
+                            print("Il paziente soffre di policitemia vera")
+                    case 1:
+                        if "Sotto" in element[0]:
+                            print("Il paziente soffre di ipocromia")
+                        else:
+                            print("Il paziente ha una malattia cronica")
+                    case 2:
+                        if "Sotto" in element[0]:
+                            print("Il paziente soffre di ipocromia")
+                        else:
+                            print("Il paziente soffre di anasarca o iperlipidemia")
+                    case 3: 
+                        if "Sotto" in element[0]:
+                            print("Il paziente soffre di microcitosi")
+                        else:
+                            print("Il paziente soffre di macrocitosi")
+                    case 4:
+                        if "Sotto" in element[0]:
+                            print("Il paziente soffre di carenza di ferro")
+                        else:
+                            print("Il paziente soffre di sovraccarico di ferro, associato a emocromatosi ereditaria")
 
 
-print(valoriOltreReference())
+
+tiziMalatiAnemiaConMalattia()
