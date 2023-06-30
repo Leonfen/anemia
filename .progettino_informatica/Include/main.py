@@ -331,8 +331,8 @@ def valoriOltreReference():
     # Analisi Corpuscolate represents the value "MCH", "MCHC", "MCV" in this order
     values = leggereValori(r"C:\Users\zuzup\Desktop\cartelle\code\anemia\.progettino_informatica\Include\data\Anemia.csv")
     valueAnalisiMolecolari: list[list[str]] = values[2] 
-    valueEmoglobina = values[1]
-    valueFerritina = values[6]
+    valueEmoglobina: list[str] = values[1]
+    valueFerritina: list[str] = values[6]
     valueInterval: list[list[tuple[str, str]]] = values[5]
     for index, element in enumerate(valueInterval): 
         valueAnalisiMolecolari[index].insert(0, valueEmoglobina[index]) # insert the emoglobina's value in the first index of array
@@ -342,10 +342,12 @@ def valoriOltreReference():
     for i, elements in enumerate(valueAnalisiMolecolari):
         singleValue: list[str] = [] # Temporary variable
         for j, element in enumerate(elements):
-            if float(element) < float(valueInterval[i][j][0]):
-                singleValue.append(("Sotto intervallo", element))
-            elif float(element) > float(valueInterval[i][j][1]):
-                singleValue.append(("Sopra intervallo", element))
+            intervalloSuperiore: float = float(valueInterval[i][j][1])
+            intervalloInferiore: float = float(valueInterval[i][j][0])
+            if float(element) < intervalloInferiore:
+                singleValue.append(("Sotto intervallo", element, intervalloInferiore))
+            elif float(element) > intervalloSuperiore:
+                singleValue.append(("Sopra intervallo", element, intervalloSuperiore))
             else:
                 singleValue.append("Dentro intervallo")    
         matrixValue.append(singleValue) # Create the full list, contain the single value of the interval 
@@ -359,41 +361,105 @@ def valoriOltreReference():
     '''
     return matrixValue
 
+
+def checkingValue(elements):
+    "Check if the value is above or less the limit interval, return the illnesses of the patient"
+    "It will return matrix created with:"
+    '''
+        - Sintomi, lista di stringhe
+        - Cause, lista di stringhe
+        - Valori oltre la soglia, tuple con prefisso e valore oltre la soglia del 10%
+    '''
+    sintomi: list[str] = []
+    probabiliCause: list[str] = []
+    valoriOltre: list[tuple[str, float]] = []
+    
+
+    for index, element in enumerate(elements):
+        if 'Dentro' in element: continue # The element is regular, continues to the next element
+        intervalValue = float(element[2]) # take the regular interval of the element
+        value = float(element[1]) # take the external value
+        if type(element) == tuple:
+            if index == 0: # Checking hemoglobin
+                if (value < (intervalValue - (intervalValue / 10))):
+                    probabiliCause.extend(['carenza di ferro', 'carenza di vitamina B12', 'carenza di folati', 'anemia emolitica', 'talassemia', 'malattie croniche'])
+                    sintomi.append('anemia')
+                    valoriOltre.append(('Emoglobina', value))
+
+                if (value > (intervalValue + (intervalValue / 10))):
+                    probabiliCause.extend(['policitemia vera', 'malattia di poliglobulia'])
+                    valoriOltre.append(('Emoglobina', value))
+
+            if index == 1: # Cheking MCH
+                if (value < (intervalValue - (intervalValue / 10))):
+                    sintomi.append('ipocromia')
+                    for element in ['carenza di ferro', 'talassemia', 'anemia sideroblastica']:
+                        if not element in probabiliCause:
+                            probabiliCause.append(element)
+                    valoriOltre.append(('MCH', value))
+                if (value > (intervalValue + (intervalValue / 10))):
+                    for element in ['anemia perniciosa', 'malattie croniche']:
+                        if not element in probabiliCause:
+                            probabiliCause.append(element)
+                    valoriOltre.append(('MCH', value))
+
+            if index == 2: # Cheking MCHC
+                if (value < (intervalValue - (intervalValue / 10))):
+                    if not 'ipocromia' in sintomi: sintomi.append('ipocromia')
+                    for element in ['carenza di ferro', 'talassemia', 'anemia sideroblastica']:
+                        if not element in probabiliCause:
+                            probabiliCause.append(element)
+                    valoriOltre.append(('MCHC', value))
+                if (value > (intervalValue + (intervalValue / 10))):
+                    for element in ['anasarca', 'iperlipidemia', 'ittero']:
+                        if not element in probabiliCause:
+                            probabiliCause.append(element)
+                    valoriOltre.append(('MCHC', value))
+
+            if index == 3: # Checking MCV
+                if (value < (intervalValue - (intervalValue / 10))):
+                    if not 'microcitosi' in sintomi: sintomi.append('microcitosi')            
+                    for element in ['carenza di ferro', 'talassemia', 'anemia sideroblastica']:
+                        if not element in probabiliCause:
+                            probabiliCause.append(element)
+                    valoriOltre.append(('MCV', value))
+                if (value > (intervalValue + (intervalValue / 10))):
+                    if not 'macrocitosi' in sintomi: sintomi.append('macrocitosi')            
+                    if (value < (intervalValue - (intervalValue / 10))):
+                        for element in ['carenza di vitamina B12', 'carenza di folati', 'alcolismo', 'problemi del midollo osseo']:
+                            if not element in probabiliCause:
+                                probabiliCause.append(element)
+                        valoriOltre.append(('MCV', value))
+
+            if index == 4: # Ferritina
+                    if (value < (intervalValue - (intervalValue / 10))):
+                        if not 'anemia' in sintomi: sintomi.append('anemia')            
+                        if (value < (intervalValue - (intervalValue / 10))):
+                            for element in ['carenza di ferro']:
+                                if not element in probabiliCause:
+                                    probabiliCause.append(element)
+                            valoriOltre.append(('ferritina', value))
+
+                    if (value > (intervalValue + (intervalValue / 10))):
+                        if not 'sovraccarico di ferro' in sintomi: sintomi.append('sovraccarico di ferro')            
+                        if (value < (intervalValue - (intervalValue / 10))):
+                            for element in ['emocromatosi ereditaria', 'eccessivo accumulo di ferro']:
+                                if not element in probabiliCause:
+                                    probabiliCause.append(element)
+                            valoriOltre.append(('ferritina', value))
+
+
+    if (len(sintomi) != 0 and len(probabiliCause) != 0 and len(valoriOltre) != 0): 
+        return [sintomi, probabiliCause, valoriOltre]
+
+    
+
+    
 def tiziMalatiAnemiaConMalattia():
     "Restituisce le persone malate di anemia con il loro tipo di anemia"
     valoriOltreIntervallo = valoriOltreReference()
-    sicknessValue: list = []
     for elements in valoriOltreIntervallo:
-        temporaryValue: list = []
-        for index, element in enumerate(elements):
-            if type(element) == tuple:
-                match index:
-                    case 0:
-                        # Emoglobina
-                        if "Sotto" in element[0]:
-                            print("Il paziente soffre di anemia")
-                        else:
-                            print("Il paziente soffre di policitemia vera")
-                    case 1:
-                        if "Sotto" in element[0]:
-                            print("Il paziente soffre di ipocromia")
-                        else:
-                            print("Il paziente ha una malattia cronica")
-                    case 2:
-                        if "Sotto" in element[0]:
-                            print("Il paziente soffre di ipocromia")
-                        else:
-                            print("Il paziente soffre di anasarca o iperlipidemia")
-                    case 3: 
-                        if "Sotto" in element[0]:
-                            print("Il paziente soffre di microcitosi")
-                        else:
-                            print("Il paziente soffre di macrocitosi")
-                    case 4:
-                        if "Sotto" in element[0]:
-                            print("Il paziente soffre di carenza di ferro")
-                        else:
-                            print("Il paziente soffre di sovraccarico di ferro, associato a emocromatosi ereditaria")
+        print(checkingValue(elements))
 
 
 
