@@ -362,6 +362,14 @@ def valoriOltreReference():
     return matrixValue
 
 
+def checkingSingleValue(probabiliCause, sintomi, valoriOltre, value, prefix, cause, sintomo = None):
+    if (not sintomo in sintomi) and (not sintomo is None): sintomi.append(sintomo)
+    for element in cause:
+        if not element in probabiliCause:
+            probabiliCause.append(element)
+    valoriOltre.append((prefix, value))
+    return ((probabiliCause, sintomi, valoriOltre))
+
 def checkingValue(elements):
     "Check if the value is above or less the limit interval, return the illnesses of the patient"
     "It will return matrix created with:"
@@ -382,7 +390,7 @@ def checkingValue(elements):
         if type(element) == tuple:
             if index == 0: # Checking hemoglobin
                 if (value < (intervalValue - (intervalValue / 10))):
-                    probabiliCause.extend(['carenza di ferro', 'carenza di vitamina B12', 'carenza di folati', 'anemia emolitica', 'talassemia', 'malattie croniche'])
+                    probabiliCause.extend(['carenza di ferro', 'carenza di vitamina B12', 'carenza di folati', 'anemia emolitica', 'talassemia', 'malattie croniche']) # Using extend to insert multiple values in the main array
                     sintomi.append('anemia')
                     valoriOltre.append(('Emoglobina', value))
 
@@ -392,62 +400,27 @@ def checkingValue(elements):
 
             if index == 1: # Cheking MCH
                 if (value < (intervalValue - (intervalValue / 10))):
-                    sintomi.append('ipocromia')
-                    for element in ['carenza di ferro', 'talassemia', 'anemia sideroblastica']:
-                        if not element in probabiliCause:
-                            probabiliCause.append(element)
-                    valoriOltre.append(('MCH', value))
+                    probabiliCause, sintomi, valoriOltre = checkingSingleValue(probabiliCause, sintomi, valoriOltre, value, 'MCH', ['carenza di ferro', 'talassemia', 'anemia sideroblastica'], 'ipocromia')
                 if (value > (intervalValue + (intervalValue / 10))):
-                    for element in ['anemia perniciosa', 'malattie croniche']:
-                        if not element in probabiliCause:
-                            probabiliCause.append(element)
-                    valoriOltre.append(('MCH', value))
+                    probabiliCause, sintomi, valoriOltre = checkingSingleValue(probabiliCause, sintomi, valoriOltre, value, 'MCH', ['anemia perniciosa', 'malattie croniche'])
 
             if index == 2: # Cheking MCHC
                 if (value < (intervalValue - (intervalValue / 10))):
-                    if not 'ipocromia' in sintomi: sintomi.append('ipocromia')
-                    for element in ['carenza di ferro', 'talassemia', 'anemia sideroblastica']:
-                        if not element in probabiliCause:
-                            probabiliCause.append(element)
-                    valoriOltre.append(('MCHC', value))
+                    probabiliCause, sintomi, valoriOltre = checkingSingleValue(probabiliCause, sintomi, valoriOltre, value, 'MCHC', ['carenza di ferro', 'talassemia', 'anemia sideroblastica'], 'ipocromia')
                 if (value > (intervalValue + (intervalValue / 10))):
-                    for element in ['anasarca', 'iperlipidemia', 'ittero']:
-                        if not element in probabiliCause:
-                            probabiliCause.append(element)
-                    valoriOltre.append(('MCHC', value))
+                    probabiliCause, sintomi, valoriOltre = checkingSingleValue(probabiliCause, sintomi, valoriOltre, value, 'MCHC', ['anasarca', 'iperlipidemia', 'ittero'], 'ipocromia')
 
             if index == 3: # Checking MCV
                 if (value < (intervalValue - (intervalValue / 10))):
-                    if not 'microcitosi' in sintomi: sintomi.append('microcitosi')            
-                    for element in ['carenza di ferro', 'talassemia', 'anemia sideroblastica']:
-                        if not element in probabiliCause:
-                            probabiliCause.append(element)
-                    valoriOltre.append(('MCV', value))
+                    probabiliCause, sintomi, valoriOltre = checkingSingleValue(probabiliCause, sintomi, valoriOltre, value, 'MCV', ['carenza di ferro', 'talassemia', 'anemia sideroblastica'], 'microcitosi')                    
                 if (value > (intervalValue + (intervalValue / 10))):
-                    if not 'macrocitosi' in sintomi: sintomi.append('macrocitosi')            
-                    if (value < (intervalValue - (intervalValue / 10))):
-                        for element in ['carenza di vitamina B12', 'carenza di folati', 'alcolismo', 'problemi del midollo osseo']:
-                            if not element in probabiliCause:
-                                probabiliCause.append(element)
-                        valoriOltre.append(('MCV', value))
+                    probabiliCause, sintomi, valoriOltre = checkingSingleValue(probabiliCause, sintomi, valoriOltre, value, 'MCV', ['carenza di vitamina B12', 'carenza di folati', 'alcolismo', 'problemi del midollo osseo'], 'macrocitosi')                    
 
             if index == 4: # Ferritina
-                    if (value < (intervalValue - (intervalValue / 10))):
-                        if not 'anemia' in sintomi: sintomi.append('anemia')            
-                        if (value < (intervalValue - (intervalValue / 10))):
-                            for element in ['carenza di ferro']:
-                                if not element in probabiliCause:
-                                    probabiliCause.append(element)
-                            valoriOltre.append(('ferritina', value))
-
-                    if (value > (intervalValue + (intervalValue / 10))):
-                        if not 'sovraccarico di ferro' in sintomi: sintomi.append('sovraccarico di ferro')            
-                        if (value < (intervalValue - (intervalValue / 10))):
-                            for element in ['emocromatosi ereditaria', 'eccessivo accumulo di ferro']:
-                                if not element in probabiliCause:
-                                    probabiliCause.append(element)
-                            valoriOltre.append(('ferritina', value))
-
+                if (value < (intervalValue - (intervalValue / 10))):
+                    probabiliCause, sintomi, valoriOltre = checkingSingleValue(probabiliCause, sintomi, valoriOltre, value, 'Ferritina', ['carenza di ferro'], 'anemia')                                    
+                if (value > (intervalValue + (intervalValue / 10))):
+                    probabiliCause, sintomi, valoriOltre = checkingSingleValue(probabiliCause, sintomi, valoriOltre, value, 'Ferritina', ['emocromatosi ereditaria', 'eccessivo accumulo di ferro'], 'sovraccarico di ferro')                                    
 
     if (len(sintomi) != 0 and len(probabiliCause) != 0 and len(valoriOltre) != 0): 
         return [sintomi, probabiliCause, valoriOltre]
@@ -458,8 +431,9 @@ def checkingValue(elements):
 def tiziMalatiAnemiaConMalattia():
     "Restituisce le persone malate di anemia con il loro tipo di anemia"
     valoriOltreIntervallo = valoriOltreReference()
-    for elements in valoriOltreIntervallo:
-        print(checkingValue(elements))
+    for index, elements in enumerate(valoriOltreIntervallo):
+        valore = checkingValue(elements)
+        if valore != None: print(valore, index + 1)
 
 
 
