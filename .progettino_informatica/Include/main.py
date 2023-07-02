@@ -456,22 +456,22 @@ def checkingValue(elements):
     
 def tiziMalatiAnemiaConMalattia():
     "Restituisce le persone malate di anemia con il loro tipo di anemia"
-    valoriOltreIntervallo = valoriOltreReference()
-    for index, elements in enumerate(valoriOltreIntervallo):
-        valore = checkingValue(elements)
-        if valore != None:
-            with open(r"C:\Users\zuzup\Desktop\cartelle\code\anemia\.progettino_informatica\Include\output\valoriOltreIntervallo.csv", "w") as outfile:
-                csvWriter = csv.writer(outfile, lineterminator='\n')
-                # Add the list of column headers to the csv file.
-                headers = ["Nome", "Sintomi", "Cause e malattie", "Valori oltre reference"]
-                csvWriter.writerow(headers)
+    with open(r"C:\Users\zuzup\Desktop\cartelle\code\anemia\.progettino_informatica\Include\output\tiziMalati.csv", "w") as outfile:
+        valoriOltreIntervallo = valoriOltreReference()
+        csvWriter = csv.writer(outfile, lineterminator='\n')
+        # Add the list of column headers to the csv file.
+        headers = ["Nome", "Sintomi", "Cause e malattie", "Valori oltre reference"]
+        csvWriter.writerow(headers)
+        for index, elements in enumerate(valoriOltreIntervallo):
+            valore = checkingValue(elements)
+            if valore != None:
                 nome: str = elements[0]
-                sintomi: str = ", ".join(valore[0])
-                cause_malattie: str = ", ".join(valore[1])
+                sintomi: str = "; ".join(valore[0])
+                cause_malattie: str = "; ".join(valore[1])
                 valoriReference: list[str] = []
                 for value in valore[2]:
                     valoriReference.append(f"{value[0]} = {value[1]}")
-                valoriReference = ", ".join(valoriReference)
+                valoriReference = "; ".join(valoriReference)
                 csvWriter.writerow([nome, sintomi, cause_malattie, valoriReference])
             
 

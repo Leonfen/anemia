@@ -1,17 +1,17 @@
-Nome,Sintomi,Malattie e cause,Valori oltre intervallo
-Marco Rossi,ipocromia,"carenza di ferro, talassemia, anemia sideroblastica",MCHC = 22.7
-Giulia Bianchi,microcitosi,"carenza di ferro, talassemia, anemia sideroblastica",MCV = 28.3
-Matteo Russo,"ipocromia, anemia","carenza di ferro, talassemia, anemia sideroblastica","MCH = 9.0, MCHC = 21.5, Ferritina = 71.2"
-Chiara Esposito,ipocromia,"carenza di ferro, talassemia, anemia sideroblastica",MCHC = 16.0
-Benito Gasparri,"ipocromia, microcitosi","carenza di ferro, talassemia, anemia sideroblastica","MCHC = 22.0, MCV = 28.2"
-Sofia Colombo,ipocromia,"carenza di ferro, talassemia, anemia sideroblastica",MCHC = 22.3
-Adolfo Giovannini,ipocromia,"carenza di ferro, talassemia, anemia sideroblastica",MCHC = 19.5
-Alessia Marino,microcitosi,"carenza di ferro, talassemia, anemia sideroblastica",MCV = 28.2
-Lorenzo Conte,ipocromia,"carenza di ferro, talassemia, anemia sideroblastica",MCHC = 21.3
-Claudia Ricci,ipocromia,"carenza di ferro, talassemia, anemia sideroblastica",MCHC = 21.7
+Nome,Sintomi,Cause e malattie,Valori oltre reference
+Marco Rossi,ipocromia,carenza di ferro; talassemia; anemia sideroblastica,MCHC = 22.7
+Giulia Bianchi,microcitosi,carenza di ferro; talassemia; anemia sideroblastica,MCV = 28.3
+Matteo Russo,ipocromia; anemia,carenza di ferro; talassemia; anemia sideroblastica,MCH = 9.0; MCHC = 21.5; Ferritina = 71.2
+Chiara Esposito,ipocromia,carenza di ferro; talassemia; anemia sideroblastica,MCHC = 16.0
+Benito Gasparri,ipocromia; microcitosi,carenza di ferro; talassemia; anemia sideroblastica,MCHC = 22.0; MCV = 28.2
+Sofia Colombo,ipocromia,carenza di ferro; talassemia; anemia sideroblastica,MCHC = 22.3
+Adolfo Giovannini,ipocromia,carenza di ferro; talassemia; anemia sideroblastica,MCHC = 19.5
+Alessia Marino,microcitosi,carenza di ferro; talassemia; anemia sideroblastica,MCV = 28.2
+Lorenzo Conte,ipocromia,carenza di ferro; talassemia; anemia sideroblastica,MCHC = 21.3
+Claudia Ricci,ipocromia,carenza di ferro; talassemia; anemia sideroblastica,MCHC = 21.7
 Elena Greco,anemia,carenza di ferro,Ferritina = 69.8
-Davide Lombardi,microcitosi,"carenza di ferro, talassemia, anemia sideroblastica",MCV = 28.7
-Simone Rizzo,"ipocromia, microcitosi","carenza di ferro, talassemia, anemia sideroblastica","MCHC = 24.0, MCV = 27.9"
-Laura De Santis,"ipocromia, microcitosi","carenza di ferro, talassemia, anemia sideroblastica","MCHC = 21.8, MCV = 27.8"
-Alice Gatti,ipocromia,"carenza di ferro, talassemia, anemia sideroblastica",MCHC = 19.3
-Pasquale Paoli,ipocromia,"carenza di ferro, talassemia, anemia sideroblastica","MCH = 9.2, MCHC = 18.3"
+Davide Lombardi,microcitosi,carenza di ferro; talassemia; anemia sideroblastica,MCV = 28.7
+Simone Rizzo,ipocromia; microcitosi,carenza di ferro; talassemia; anemia sideroblastica,MCHC = 24.0; MCV = 27.9
+Laura De Santis,ipocromia; microcitosi,carenza di ferro; talassemia; anemia sideroblastica,MCHC = 21.8; MCV = 27.8
+Alice Gatti,ipocromia,carenza di ferro; talassemia; anemia sideroblastica,MCHC = 19.3
+Pasquale Paoli,ipocromia,carenza di ferro; talassemia; anemia sideroblastica,MCH = 9.2; MCHC = 18.3
