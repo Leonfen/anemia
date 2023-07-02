@@ -1,5 +1,6 @@
 import csv
 import os
+import matplotlib.pyplot as plt
 
 fileCartellaClinicheXlsx = "CartellaCliniche.xlsx"
 fileCartellaClinicheCsv = "CartellaCliniche.csv"
@@ -340,7 +341,7 @@ def valoriOltreReference():
 
     matrixValue: list[list[str]] | list[list[tuple[str, float]]] | list[list[tuple[str, float], str]] = [] # Create the matrix that contains all values
     for i, elements in enumerate(valueAnalisiMolecolari):
-        singleValue: list[str] = [] # Temporary variable
+        singleValue: list[str] = [values[0][i]] # Temporary variable
         for j, element in enumerate(elements):
             intervalloSuperiore: float = float(valueInterval[i][j][1])
             intervalloInferiore: float = float(valueInterval[i][j][0])
@@ -359,6 +360,31 @@ def valoriOltreReference():
         - MCV
         - Ferritina
     '''
+    with open(r"C:\Users\zuzup\Desktop\cartelle\code\anemia\.progettino_informatica\Include\output\valoriOltreIntervallo.csv", "w") as outfile:
+        csvWriter = csv.writer(outfile, lineterminator='\n')
+
+        # Add the list of column headers to the csv file.
+        headers = ["Nome", "Emoglobina", "MCH", "MCHC", "MCV", "Ferritina"]
+        csvWriter.writerow(headers)
+        for index, row in enumerate(matrixValue):
+            # Emoglobina
+            emoglobina: str = row[1]
+            if type(emoglobina) == tuple: emoglobina = f"L'emoglobina {emoglobina[0].lower()}; lower bound: {emoglobina[1]}; upper bound {emoglobina[2]}"
+            # MCH
+            MCH: str = row[2]
+            if type(MCH) == tuple: MCH = f"L'MCH {MCH[0].lower()}; lower bound: {MCH[1]}; upper bound {MCH[2]}"
+            # MCHC
+            MCHC: str = row[3]
+            if type(MCHC) == tuple: MCHC = f"L'MCHC {MCHC[0].lower()}; lower bound: {MCHC[1]}; upper bound {MCHC[2]}"
+            # MCV
+            MCV: str = row[4]
+            if type(MCV) == tuple: MCV = f"L'emoglobina {MCV[0].lower()}; lower bound: {MCV[1]}; upper bound {MCV[2]}"
+            # Ferritina
+            ferritina: str = row[5]
+            if type(ferritina) == tuple: ferritina = f"La ferritina {ferritina[0].lower()}; lower bound: {ferritina[1]}; upper bound {ferritina[2]}"
+
+            csvWriter.writerow([matrixValue[index][0], emoglobina, MCH, MCHC, MCV, ferritina])
+
     return matrixValue
 
 
@@ -384,7 +410,7 @@ def checkingValue(elements):
     
 
     for index, element in enumerate(elements):
-        if 'Dentro' in element: continue # The element is regular, continues to the next element
+        if type(element) != tuple: continue # The element is not a interval, continues to the next element
         intervalValue = float(element[2]) # take the regular interval of the element
         value = float(element[1]) # take the external value
         if type(element) == tuple:
@@ -433,8 +459,37 @@ def tiziMalatiAnemiaConMalattia():
     valoriOltreIntervallo = valoriOltreReference()
     for index, elements in enumerate(valoriOltreIntervallo):
         valore = checkingValue(elements)
-        if valore != None: print(valore, index + 1)
+        if valore != None:
+            with open(r"C:\Users\zuzup\Desktop\cartelle\code\anemia\.progettino_informatica\Include\output\valoriOltreIntervallo.csv", "w") as outfile:
+                csvWriter = csv.writer(outfile, lineterminator='\n')
+                # Add the list of column headers to the csv file.
+                headers = ["Nome", "Sintomi", "Cause e malattie", "Valori oltre reference"]
+                csvWriter.writerow(headers)
+                nome: str = elements[0]
+                sintomi: str = ", ".join(valore[0])
+                cause_malattie: str = ", ".join(valore[1])
+                valoriReference: list[str] = []
+                for value in valore[2]:
+                    valoriReference.append(f"{value[0]} = {value[1]}")
+                valoriReference = ", ".join(valoriReference)
+                csvWriter.writerow([nome, sintomi, cause_malattie, valoriReference])
+            
 
-
+def istogrammaAnalisiIstologiche():
+    values = countAnalisiIstologica()
+    # Estrarre le etichette sull'asse x
+    labels = [item[0] for item in values]
+    # Estrarre i valori sull'asse y
+    values = [item[1] for item in values]
+    # Creare il grafico a istogrammi
+    plt.bar(labels, values)
+    # Aggiungere una descrizione all'asse x
+    plt.xlabel('Tipo di cellula')
+    # Aggiungere una descrizione all'asse y
+    plt.ylabel('Conteggio')
+    # Aggiungere un titolo al grafico
+    plt.title('Istogramma delle cellule')
+    # Mostrare il grafico
+    plt.show()
 
 tiziMalatiAnemiaConMalattia()

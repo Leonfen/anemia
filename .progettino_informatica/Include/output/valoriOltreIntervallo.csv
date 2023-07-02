@@ -1,21 +1,2 @@
-Nome,Emoglobina,MCH,MCHC,MCV,Ferritina
-Marco Rossi,Dentro intervallo,MCH = sotto intervallo; lower bound = 22.7; upper bound = 27.0,MCHC = sotto intervallo; lower bound = 29.1; upper bound = 32.0,Dentro intervallo,Dentro intervallo
-Giulia Bianchi,Dentro intervallo,MCH = sotto intervallo; lower bound = 25.4; upper bound = 26.0,MCHC = sotto intervallo; lower bound = 28.3; upper bound = 32.0,MCV = sotto intervallo; lower bound = 72.0; upper bound = 80.0,Dentro intervallo
-Matteo Russo,Emoglobina = sotto intervallo; lower bound = 9.0; upper bound = 13.5,MCH = sotto intervallo; lower bound = 21.5; upper bound = 26.0,MCHC = sotto intervallo; lower bound = 29.6; upper bound = 32.0,MCV = sotto intervallo; lower bound = 71.2; upper bound = 80.0,Dentro intervallo
-Chiara Esposito,Dentro intervallo,MCH = sotto intervallo; lower bound = 16.0; upper bound = 26.0,MCHC = sotto intervallo; lower bound = 31.4; upper bound = 32.0,Dentro intervallo,Dentro intervallo
-Benito Gasparri,Dentro intervallo,MCH = sotto intervallo; lower bound = 22.0; upper bound = 27.0,MCHC = sotto intervallo; lower bound = 28.2; upper bound = 32.0,Dentro intervallo,Dentro intervallo
-Sofia Colombo,Emoglobina = sotto intervallo; lower bound = 11.6; upper bound = 12.0,MCH = sotto intervallo; lower bound = 22.3; upper bound = 27.0,MCHC = sotto intervallo; lower bound = 30.9; upper bound = 32.0,MCV = sotto intervallo; lower bound = 74.5; upper bound = 80.0,Dentro intervallo
-Adolfo Giovannini,Emoglobina = sotto intervallo; lower bound = 12.7; upper bound = 13.5,MCH = sotto intervallo; lower bound = 19.5; upper bound = 27.0,MCHC = sotto intervallo; lower bound = 28.9; upper bound = 32.0,Dentro intervallo,Dentro intervallo
-Alessia Marino,Dentro intervallo,Dentro intervallo,MCHC = sotto intervallo; lower bound = 28.2; upper bound = 32.0,Dentro intervallo,Dentro intervallo
-Giovanni Ferrara,Dentro intervallo,Dentro intervallo,MCHC = sotto intervallo; lower bound = 30.5; upper bound = 32.0,MCV = sotto intervallo; lower bound = 75.2; upper bound = 80.0,Dentro intervallo
-Valentina De Luca,Dentro intervallo,MCH = sotto intervallo; lower bound = 25.8; upper bound = 27.0,MCHC = sotto intervallo; lower bound = 31.3; upper bound = 32.0,Dentro intervallo,Dentro intervallo
-Lorenzo Conte,Emoglobina = sotto intervallo; lower bound = 13.4; upper bound = 13.5,MCH = sotto intervallo; lower bound = 21.3; upper bound = 26.0,MCHC = sotto intervallo; lower bound = 31.2; upper bound = 32.0,Dentro intervallo,Dentro intervallo
-Claudia Ricci,Dentro intervallo,MCH = sotto intervallo; lower bound = 21.7; upper bound = 27.0,MCHC = sotto intervallo; lower bound = 30.2; upper bound = 32.0,Dentro intervallo,Dentro intervallo
-Elena Greco,Dentro intervallo,Dentro intervallo,MCHC = sotto intervallo; lower bound = 31.0; upper bound = 32.0,MCV = sotto intervallo; lower bound = 69.8; upper bound = 80.0,Dentro intervallo
-Davide Lombardi,Dentro intervallo,MCH = sotto intervallo; lower bound = 24.3; upper bound = 26.0,MCHC = sotto intervallo; lower bound = 28.7; upper bound = 32.0,Dentro intervallo,Dentro intervallo
-Birra Moretti,Dentro intervallo,MCH = sotto intervallo; lower bound = 25.5; upper bound = 27.0,Dentro intervallo,Dentro intervallo,Dentro intervallo
-Simone Rizzo,Dentro intervallo,MCH = sotto intervallo; lower bound = 24.0; upper bound = 27.0,MCHC = sotto intervallo; lower bound = 27.9; upper bound = 32.0,Dentro intervallo,Dentro intervallo
-Laura De Santis,Dentro intervallo,MCH = sotto intervallo; lower bound = 21.8; upper bound = 27.0,MCHC = sotto intervallo; lower bound = 27.8; upper bound = 32.0,MCV = sotto intervallo; lower bound = 77.9; upper bound = 80.0,Dentro intervallo
-Mazzo D eRose,Dentro intervallo,MCH = sotto intervallo; lower bound = 24.6; upper bound = 27.0,MCHC = sotto intervallo; lower bound = 30.1; upper bound = 32.0,Dentro intervallo,Ferritina = sotto intervallo; lower bound = 14; upper bound = 20.0
-Alice Gatti,Dentro intervallo,MCH = sotto intervallo; lower bound = 19.3; upper bound = 26.0,MCHC = sotto intervallo; lower bound = 31.4; upper bound = 32.0,MCV = sotto intervallo; lower bound = 78.9; upper bound = 80.0,Dentro intervallo
-Pasquale Paoli,Emoglobina = sotto intervallo; lower bound = 9.2; upper bound = 13.5,MCH = sotto intervallo; lower bound = 18.3; upper bound = 27.0,Dentro intervallo,Dentro intervallo,Dentro intervallo
+Nome,Sintomi,Cause e malattie,Valori oltre reference
+Pasquale Paoli,ipocromia,"carenza di ferro, talassemia, anemia sideroblastica","MCH = 9.2, MCHC = 18.3"
