@@ -297,7 +297,7 @@ def leggereValori(inputFile: str) -> list[list[str, int]]:
                            ]) # Split the interval
                 
         # Analisi molecolari
-        ferritina.append(row[8].split('=')[1])
+        ferritina.append(row[8].split('=')[1])            
         emoglobina.append(row[7].split('=')[1])
         #* Only take the value
 
@@ -492,4 +492,63 @@ def istogrammaAnalisiIstologiche():
     # Mostrare il grafico
     plt.show()
 
-tiziMalatiAnemiaConMalattia()
+def valoreMedioMCH():
+    values = leggereValori(r"C:\Users\zuzup\Desktop\cartelle\code\anemia\.progettino_informatica\Include\data\Anemia.csv")
+    tupleList: list[tuple[float, str]] = []
+    for index in range(len(values[0])):
+        MCH = float(values[2][index][0])
+        nome = values[0][index]
+        tupleList.append((MCH, nome))
+
+    sorted_list = sorted(tupleList, key=lambda x: x[0])
+
+    y_value = [item[0] for item in sorted_list]
+    x_value = [item[1] for item in sorted_list]
+
+    plt.plot(x_value, y_value) 
+    plt.xlabel('Nomi')
+    plt.ylabel('Valore MCH')
+    plt.title('Grafico cartesiano di MCH')
+    plt.xticks(rotation=90)  # Rotating x-axis labels for better visibility
+    plt.show()
+
+def valoreMedioMCHC():
+    values = leggereValori(r"C:\Users\zuzup\Desktop\cartelle\code\anemia\.progettino_informatica\Include\data\Anemia.csv")
+    tupleList: list[tuple[float, str]] = []
+    for index in range(len(values[0])):
+        MCHC = float(values[2][index][1])
+        nome = values[0][index]
+        tupleList.append((MCHC, nome))
+
+    sorted_list = sorted(tupleList, key=lambda x: x[0])
+
+    y_value = [item[0] for item in sorted_list]
+    x_value = [item[1] for item in sorted_list]
+
+    plt.plot(x_value, y_value) 
+    plt.xlabel('Nomi')
+    plt.ylabel('Valore MCHC')
+    plt.title('Grafico cartesiano di MCHC')
+    plt.xticks(rotation=90)  # Rotating x-axis labels for better visibility
+    plt.show()
+
+def valoreMedioMCV():
+    values = leggereValori(r"C:\Users\zuzup\Desktop\cartelle\code\anemia\.progettino_informatica\Include\data\Anemia.csv")
+    tupleList: list[tuple[float, str]] = []
+    for index in range(len(values[0])):
+        MCV = float(values[2][index][2])
+        nome = values[0][index]
+        tupleList.append((MCV, nome))
+
+    sorted_list = sorted(tupleList, key=lambda x: x[0])
+
+    y_value = [item[0] for item in sorted_list]
+    x_value = [item[1] for item in sorted_list]
+
+    plt.plot(x_value, y_value) 
+    plt.xlabel('Nomi')
+    plt.ylabel('Valore MHV')
+    plt.title('Grafico cartesiano di MCV')
+    plt.xticks(rotation=90)  # Rotating x-axis labels for better visibility
+    plt.show()
+
